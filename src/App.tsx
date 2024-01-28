@@ -11,11 +11,26 @@ import React, { useState } from "react";
 import TodoItem from "./components/TodoItem";
 
 const App = () => {
-  const [todos, setTodos] = useState<TodoItemType[]>([]);
+  const [todos, setTodos] = useState<TodoItemType[]>([
+    {
+      title: "learn typescript",
+      isCompleted: false,
+      id: "fsdflsadkfjlakf",
+    },
+    {
+      title: "learn rust",
+      isCompleted: false,
+      id: "fsdflssdfdsfadkfjlakf",
+    },
+  ]);
 
-  const completeHandler = (): void => {};
+  const completeHandler = (id: TodoItemType["id"]): void => {
+    alert(id);
+  };
 
-  const deleteHandler = (id: TodoItemType["id"]): void => {};
+  const deleteHandler = (id: TodoItemType["id"]): void => {
+    alert(id);
+  };
 
   return (
     <Container maxWidth="sm" sx={{ height: "100vh" }}>
@@ -24,10 +39,14 @@ const App = () => {
           <Typography>Todo App</Typography>
         </Toolbar>
       </AppBar>
-      <TodoItem todo={{}} />
       <Stack height={"80%"} direction={"column"} spacing={"1rem"} p={"1rem"}>
         {todos.map((i) => (
-          <TodoItem key={i.id} todo={i} />
+          <TodoItem
+            completeHandler={() => completeHandler(i.id)}
+            deleteHandler={() => deleteHandler(i.id)}
+            key={i.id}
+            todo={i}
+          />
         ))}
       </Stack>
       <TextField fullWidth label={"New Task"} />
