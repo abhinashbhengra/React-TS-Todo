@@ -27,7 +27,12 @@ const App = () => {
   };
 
   const completeHandler = (id: TodoItemType["id"]): void => {
-    alert(id);
+    const updatedTodos: TodoItemType[] = todos.map((todo) => {
+      if (todo.id === id) todo.isCompleted = !todo.isCompleted;
+      return todo;
+    });
+
+    setTodos(updatedTodos);
   };
 
   const deleteHandler = (id: TodoItemType["id"]): void => {
