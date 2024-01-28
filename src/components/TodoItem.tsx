@@ -1,11 +1,21 @@
-import { Button, Checkbox, Paper, Stack, Typography } from "@mui/material";
-import React from "react";
+import {
+  Button,
+  Checkbox,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 
 type PropsType = {
   todo: TodoItemType;
   deleteHandler: (id: TodoItemType["id"]) => void;
   completeHandler: (id: TodoItemType["id"]) => void;
-  editTodoHandler: (id: TodoItemType["id"]) => void;
+  editTodoHandler: (
+    id: TodoItemType["id"],
+    newTitle: TodoItemType["title"],
+  ) => void;
 };
 
 const TodoItem = ({
@@ -14,6 +24,9 @@ const TodoItem = ({
   completeHandler,
   editTodoHandler,
 }: PropsType) => {
+  const [editActive, setEditActive] = useState<boolean>(false);
+  const [textValue, setTextValue] = useState<string>(todo.title);
+
   return (
     <Paper
       sx={{
@@ -21,12 +34,28 @@ const TodoItem = ({
       }}
     >
       <Stack direction={"row"} alignItems={"center"}>
-        <Typography marginRight={"auto"}>{todo.title}</Typography>
+        {editActive ? (
+          <TextField
+            value={textValue}
+            onChange={(e) => setTextValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && textValue !== "") {
+                editTodoHandler(todo.id, textValue);
+                setEditActive(false);
+                console.log(textValue);
+              }
+            }}
+          />
+        ) : (
+          <Typography marginRight={"auto"}>{todo.title}</Typography>
+        )}
         <Checkbox
           checked={todo.isCompleted}
           onChange={() => completeHandler(todo.id)}
         />
-        <Button onClick={() => editTodoHandler(todo.id)}>Edit</Button>
+        <Button onClick={() => setEditActive((prev) => !prev)}>
+          {editActive ? "Done" : "Edit"}
+        </Button>
         <Button onClick={() => deleteHandler(todo.id)}>Delete</Button>
       </Stack>
     </Paper>

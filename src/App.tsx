@@ -36,16 +36,26 @@ const App = () => {
   };
 
   const deleteHandler = (id: TodoItemType["id"]): void => {
-    const filteredTodos = todos.filter((todo) => todo.id !== id);
+    const filteredTodos: TodoItemType[] = todos.filter(
+      (todo) => todo.id !== id,
+    );
     setTodos(filteredTodos);
   };
 
-  const editTodoHandler = (id: TodoItemType["id"]): void => {
-    alert(`${id} is going for edit`);
-    const findTodo = todos.find((todo) => todo.id === id);
-    console.log(findTodo);
+  const editTodoHandler = (
+    id: TodoItemType["id"],
+    newTitle: TodoItemType["title"],
+  ): void => {
+    console.log(newTitle);
 
-    setTitle(findTodo.title);
+    const updatedTodos: TodoItemType[] = todos.map((todo) => {
+      if (todo.id === id) todo.title = newTitle;
+      return todo;
+    });
+
+    setTodos(updatedTodos);
+
+    console.log(updatedTodos);
   };
 
   return (
@@ -58,9 +68,9 @@ const App = () => {
       <Stack height={"80%"} direction={"column"} spacing={"1rem"} p={"1rem"}>
         {todos.map((i) => (
           <TodoItem
-            completeHandler={() => completeHandler(i.id)}
-            deleteHandler={() => deleteHandler(i.id)}
-            editTodoHandler={() => editTodoHandler(i.id)}
+            completeHandler={completeHandler}
+            deleteHandler={deleteHandler}
+            editTodoHandler={editTodoHandler}
             key={i.id}
             todo={i}
           />
