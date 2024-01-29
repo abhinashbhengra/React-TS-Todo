@@ -7,11 +7,12 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TodoItem from "./components/TodoItem";
+import { getTodos, saveTodo } from "./utils/features";
 
 const App = () => {
-  const [todos, setTodos] = useState<TodoItemType[]>([]);
+  const [todos, setTodos] = useState<TodoItemType[]>(getTodos());
 
   const [title, setTitle] = useState<string>("");
 
@@ -54,9 +55,11 @@ const App = () => {
     });
 
     setTodos(updatedTodos);
-
-    console.log(updatedTodos);
   };
+
+  useEffect(() => {
+    saveTodo(todos);
+  }, [todos]);
 
   return (
     <Container maxWidth="sm" sx={{ height: "100vh" }}>

@@ -53,9 +53,18 @@ const TodoItem = ({
           checked={todo.isCompleted}
           onChange={() => completeHandler(todo.id)}
         />
-        <Button onClick={() => setEditActive((prev) => !prev)}>
-          {editActive ? "Done" : "Edit"}
-        </Button>
+        {editActive ? (
+          <Button
+            onClick={() => {
+              editTodoHandler(todo.id, textValue);
+              setEditActive(false);
+            }}
+          >
+            Done
+          </Button>
+        ) : (
+          <Button onClick={() => setEditActive((prev) => !prev)}>Edit</Button>
+        )}
         <Button onClick={() => deleteHandler(todo.id)}>Delete</Button>
       </Stack>
     </Paper>
